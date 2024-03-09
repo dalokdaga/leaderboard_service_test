@@ -10,7 +10,8 @@ services:
     depends_on:
       - mongo
     environment:
-      MONGO_URI: mongodb://mongo:27017/leaderboard_test
+      MONGODB_URI: mongodb://mongo:27017/leaderboard_test
+      MONGODB_URI_TEST: mongodb://mongo:27017/test
   mongo:
     container_name: mongo
     image: mongo:latest

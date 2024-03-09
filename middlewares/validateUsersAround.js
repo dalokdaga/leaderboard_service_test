@@ -17,7 +17,6 @@ const validateUsersAround = (req, res, next) => {
       return res.status(400).json({ message: 'Se requiere un número par para el parámetro n.' });
     }
   
-    // Si pasa la validación, continúa con la siguiente función en la cadena middleware
     next();
   };
   

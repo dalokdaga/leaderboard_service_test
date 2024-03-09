@@ -2,6 +2,7 @@ const request = require('supertest');
 const mongoose = require('mongoose');
 const { startServer, app } = require('../app');
 const Leaderboard = require('../models/leaderboardModel');
+const createKeySecret = require('./utlis_test/addKeySecret')
 
 require('dotenv').config();
 
@@ -10,7 +11,7 @@ let server;
 beforeAll(async () => {
   server = startServer();
   await mongoose.disconnect();
-  await mongoose.connect(process.env.MONGODB_URI);
+  await mongoose.connect(process.env.MONGODB_URI_TEST);
 });
 
 afterAll(async () => {
@@ -22,6 +23,12 @@ afterAll(async () => {
 describe('Test de Endpoints', () => {
   let userId;
   let leaderboardId;
+
+  let keySecret = '81d67ad7b1b99c159eb5fbd4550681b2a2326466eab9db57da45ca168ebd5432'
+
+  beforeEach(async () => {
+    await createKeySecret(keySecret, 'Clave API de prueba', 'sha256');
+  });
 
   test('Add a user to a leader board', async () => {
     // Crear un tablero de líderes para asociar al usuario
@@ -35,6 +42,7 @@ describe('Test de Endpoints', () => {
 
     const response = await request(app)
       .post('/users')
+      .set('x-api-key', keySecret)
       .send({
         username: 'Usuario de Prueba',
         email: 'test@example.com',
@@ -54,6 +62,7 @@ describe('Test de Endpoints', () => {
 
     const response = await request(app)
       .put(`/users/${userId}`)
+      .set('x-api-key', keySecret)
       .send({
         score: 200
       });
@@ -65,7 +74,8 @@ describe('Test de Endpoints', () => {
 
   test("Get a user's rank and score", async () => {
     const response = await request(app)
-      .get(`/users/${leaderboardId}/users/${userId}/rank`);
+      .get(`/users/${leaderboardId}/users/${userId}/rank`)
+      .set('x-api-key', keySecret);
 
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('userId', userId);
@@ -95,6 +105,7 @@ describe('Test de Endpoints', () => {
     for (const user of usersToAdd) {
       const response = await request(app)
         .post('/users')
+        .set('x-api-key', keySecret)
         .send({
           ...user,
           leaderboardId: leaderboardId
@@ -106,7 +117,9 @@ describe('Test de Endpoints', () => {
     }
       
     const response = await request(app)
-      .get(`/users/around-user/${leaderboardId}/${userId}/4`);
+      .get(`/users/around-user/${leaderboardId}/${userId}/4`)
+      .set('x-api-key', keySecret)
+      ;
   
     expect(response.statusCode).toBe(200);
     expect(Array.isArray(response.body)).toBe(true);    

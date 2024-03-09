@@ -3,7 +3,7 @@ const { startServer, app } = require('../app');
 const mongoose = require('mongoose');
 const Leaderboard = require('../models/leaderboardModel');
 const User = require('../models/userModel');
-
+const createKeySecret = require('./utlis_test/addKeySecret')
 require('dotenv').config();
 
 let server; 
@@ -11,7 +11,7 @@ let server;
 beforeAll(async () => {
   server = startServer();
   await mongoose.disconnect()
-  await mongoose.connect(process.env.MONGODB_URI);
+  await mongoose.connect(process.env.MONGODB_URI_TEST);
 });
 
 afterAll(async () => {
@@ -21,10 +21,17 @@ afterAll(async () => {
 });
 
 describe('Leaderboard Controller', () => {
+  let keySecret = '81d67ad7b1b99c159eb5fbd4550681b2a2326466eab9db57da45ca168ebd5432'
+
+  beforeEach(async () => {
+    await createKeySecret(keySecret, 'Clave API de prueba', 'sha256');
+  });
+
   it('should create a new leaderboard', async () => {
     console.log("################################ Leaderboard created ############################")
     const response = await request(app)
       .post('/leaderboards')
+      .set('x-api-key', keySecret)
       .send({ name: 'Test Leaderboard', game: 'Test Game' });
 
     expect(response.statusCode).toBe(201);
@@ -43,7 +50,7 @@ describe('Leaderboard Controller', () => {
     const newLeaderboard = new Leaderboard({ name: 'Test Leaderboard for delete', game: 'Test Game' });
     await newLeaderboard.save();
 
-    const response = await request(app).delete(`/leaderboards/${newLeaderboard._id}`);
+    const response = await request(app).delete(`/leaderboards/${newLeaderboard._id}`).set('x-api-key', keySecret);
 
     expect(response.statusCode).toBe(200);
 
@@ -67,7 +74,8 @@ describe('Leaderboard Controller', () => {
   
     await User.insertMany(users);
   
-    const response = await request(app).get(`/leaderboards/${leaderboard._id}/users?page=1&limit=5`);
+    const response = await request(app).get(`/leaderboards/${leaderboard._id}/users?page=1&limit=5`)
+      .set('x-api-key', keySecret);
   
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('users');

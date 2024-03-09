@@ -14,11 +14,10 @@ app.use('/leaderboards', leaderboardRoutes);
 app.use('/users', userRoutes);
 
 module.exports = {
-  startServer: () => {
-    const PORT = process.env.PORT || 3000;
-    return app.listen(PORT, () => {
-      console.log(`Servidor iniciado en el puerto ${PORT}`);
+  startServer: (port = 3002) => {
+    return app.listen(port, () => {
+      console.log(`Servidor iniciado en el puerto ${port}`);
     });
   },
-  app: app // exporta también la instancia de la aplicación
+  app: app
 };
