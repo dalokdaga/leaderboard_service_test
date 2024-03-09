@@ -16,7 +16,11 @@ Este es el servicio de tablero de líderes para gestionar tableros de líderes y
    ```bash
    git clone https://github.com/dalokdaga/leaderboard_service_test.git
 
-2. Instala las dependencias utilizando npm:
+2. Ir al directorio del proyecto.
+   ```bash
+   cd leaderboard_service_test
+
+3. Instala las dependencias utilizando npm:
 
    ```bash
    npm install
@@ -33,16 +37,21 @@ Este es el servicio de tablero de líderes para gestionar tableros de líderes y
    node server.js
 
 ## Instalación Con docker
+Uso del servicio usando docker.
 1. Clona este repositorio en tu máquina local.
    ```bash
    git clone https://github.com/dalokdaga/leaderboard_service_test.git
 
-2. Instala las dependencias utilizando npm:
+2. Ir al directorio del proyecto.
+   ```bash
+   cd leaderboard_service_test
+
+3. Instala las dependencias utilizando npm:
 
    ```bash
    npm install
 
-3. Ejecuta el docker-compose para que se configure (Se necesita tener docker y docker-compose)
+4. Ejecuta el docker-compose para que se configure (Se necesita tener docker y docker-compose)
    ```bash
    docker-compose up --build
 no es necesario agregar variables de entorno ya que el archivo docker-compose tiene la configuración para su correcto funcionamiento.
@@ -51,6 +60,8 @@ no es necesario agregar variables de entorno ya que el archivo docker-compose ti
 1. Una vez configurado el proyecto las pruebas se puede ejecutar con los siguientes comandos usando la terminal
    ```bash
    npx jest tests/leaderboardController.test.js
+
+   ```bash
    npx jest tests/userController.test.js
 
 ## ¿Como utilizar la api? 
@@ -64,7 +75,7 @@ no es necesario agregar variables de entorno ya que el archivo docker-compose ti
 1. Creating a leaderboard
    ```bash
     curl --location 'http://localhost:3000/leaderboards' \
-    --header 'x-api-key: f75547b7d08a243f017d7178521462e5a34eca3c225627898e0989ff8f98693d' \
+    --header 'x-api-key: sustituir-por-api-key-generada' \
     --header 'Content-Type: application/json' \
     --data '{
         "name": "Tablero MetalSlug",
@@ -74,12 +85,12 @@ no es necesario agregar variables de entorno ya que el archivo docker-compose ti
 2. Deleting a leaderboard
    ```bash
     curl --location --request DELETE 'http://localhost:3000/leaderboards/65ecbb6290dd067e3b8547fc' \
-    --header 'x-api-key: f75547b7d08a243f017d7178521462e5a34eca3c225627898e0989ff8f98693d'
+    --header 'x-api-key: sustituir-por-api-key-generada'
    
 3. Adding users to a leaderboard
    ```bash
    curl --location 'http://localhost:3000/users' \
-   --header 'x-api-key: f75547b7d08a243f017d7178521462e5a34eca3c225627898e0989ff8f98693d' \
+   --header 'x-api-key: sustituir-por-api-key-generada' \
    --header 'Content-Type: application/json' \
    --data-raw '{
       "username": "example_user1",
@@ -90,7 +101,7 @@ no es necesario agregar variables de entorno ya que el archivo docker-compose ti
 4. Updating scores of users
    ```bash
    curl --location --request PUT 'http://localhost:3000/users/65ecbd4f1afc395283366e8c' \
-   --header 'x-api-key: f75547b7d08a243f017d7178521462e5a34eca3c225627898e0989ff8f98693d' \
+   --header 'x-api-key: sustituir-por-api-key-generada' \
    --header 'Content-Type: application/json' \
    --data '{
       "score": 500
@@ -99,12 +110,12 @@ no es necesario agregar variables de entorno ya que el archivo docker-compose ti
 5. Getting leaderboard with pagination
    ```bash
    curl --location 'http://localhost:3000/leaderboards/65ecbcea5a913d010ee76f97/users?page=1&limit=20' \
-   --header 'x-api-key: f75547b7d08a243f017d7178521462e5a34eca3c225627898e0989ff8f98693d'
+   --header 'x-api-key: sustituir-por-api-key-generada'
 
 6. Getting rank and score of X user
    ```bash
    curl --location --request GET 'http://localhost:3000/users/leaderboard/65ecbcea5a913d010ee76f97/users/65ecbd4f1afc395283366e8c/rank' \
-   --header 'x-api-key: f75547b7d08a243f017d7178521462e5a34eca3c225627898e0989ff8f98693d' \
+   --header 'x-api-key: sustituir-por-api-key-generada' \
    --header 'Content-Type: application/json' \
    --data '{
       "score": 500
@@ -113,7 +124,7 @@ no es necesario agregar variables de entorno ya que el archivo docker-compose ti
 7. Getting N users around X user in the leaderboard (a segment of the leaderboard where X user is in the middle)
    ```bash
    curl --location 'http://localhost:3000/users/around-user/leaderboard/65ecbcea5a913d010ee76f97/user/65ecbd4f1afc395283366e8c/2' \
-   --header 'x-api-key: f75547b7d08a243f017d7178521462e5a34eca3c225627898e0989ff8f98693d' \
+   --header 'x-api-key: sustituir-por-api-key-generada' \
    --data ''
 
 Para poder observar un mejor comportamiento en los endpoints puede registrar mas de un usuario en un leaderboard
