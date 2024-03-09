@@ -57,10 +57,11 @@ Uso del servicio usando docker.
 no es necesario agregar variables de entorno ya que el archivo docker-compose tiene la configuración para su correcto funcionamiento.
 
 ## Ejecución de pruebas test
-1. Una vez configurado el proyecto las pruebas se puede ejecutar con los siguientes comandos usando la terminal
+Una vez configurado el proyecto las pruebas se puede ejecutar con los siguientes comandos usando la terminal
+1. leaderboardController
    ```bash
    npx jest tests/leaderboardController.test.js
-
+2. userController
    ```bash
    npx jest tests/userController.test.js
 
