@@ -33,6 +33,7 @@ program
     nuevaClave.save()
       .then(claveGuardada => {
         console.log(`Clave secreta agregada a la colección con ID: ${claveGuardada._id}`);
+        console.log(`Api key generada: ${claveGuardada.key}`);
         process.exit(0); // Salir sin errores
       })
       .catch(error => {

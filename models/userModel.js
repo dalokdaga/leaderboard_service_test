@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
     email: { type: String, require: true},
     is_admin: { type: Boolean, default: false},
     leaderboard_id: mongoose.Schema.Types.ObjectId,
-    score: { type: Number, require: true},
+    score: { type: Number, default: 0},
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now },
     deleted_at: { type: Date, default: null }

@@ -74,7 +74,7 @@ describe('Test de Endpoints', () => {
 
   test("Get a user's rank and score", async () => {
     const response = await request(app)
-      .get(`/users/${leaderboardId}/users/${userId}/rank`)
+      .get(`/users/leaderboard/${leaderboardId}/users/${userId}/rank`)
       .set('x-api-key', keySecret);
 
     expect(response.statusCode).toBe(200);
@@ -117,7 +117,7 @@ describe('Test de Endpoints', () => {
     }
       
     const response = await request(app)
-      .get(`/users/around-user/${leaderboardId}/${userId}/4`)
+      .get(`/users/around-user/leaderboard/${leaderboardId}/user/${userId}/4`)
       .set('x-api-key', keySecret)
       ;
   

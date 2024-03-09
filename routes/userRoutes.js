@@ -11,7 +11,7 @@ router.post('/', [keySecret, validateUserData], userController.addUserToLeaderbo
 // Actualizar la puntuación de un usuario
 router.put('/:userId', keySecret, userController.updateUserScore);
 
-router.get('/:leaderboardId/users/:userId/rank', keySecret, userController.getUserRankAndScore);
+router.get('/leaderboard/:leaderboardId/users/:userId/rank', keySecret, userController.getUserRankAndScore);
 
-router.get('/around-user/:leaderboardId/:userId/:n', keySecret, validateUsersAround, userController.getUsersAroundUser);
+router.get('/around-user/leaderboard/:leaderboardId/user/:userId/:n', keySecret, validateUsersAround, userController.getUsersAroundUser);
 module.exports = router;

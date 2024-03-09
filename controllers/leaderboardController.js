@@ -57,6 +57,11 @@ exports.listLeaderboardUsers = async (req, res) => {
   const { leaderboardId } = req.params;
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
+  const existingLeaderboard = await Leaderboard.findOne({ _id: leaderboardId, deleted_at: null });
+  
+  if (!existingLeaderboard) {
+    return res.status(404).json({ message: 'Tablero de líderes no encontrado o ya ha sido eliminado.' });
+  }
 
   try {
     // Contar el total de usuarios en el tablero de líderes especificado
@@ -74,16 +79,11 @@ exports.listLeaderboardUsers = async (req, res) => {
       ...user.toObject(),
       rank: (page - 1) * limit + index + 1 // Asegura que el rango empiece en 1 y aumente según el índice en la página actual
     }));
-
+    pagination = new PaginationInfo(totalCount, limit, page)
     // Enviar la respuesta JSON con la lista de usuarios ordenados por su puntuación y con rangos calculados
     res.status(200).json({
       users: rankedUsers,
-      pagination: {
-        totalItems: totalCount,
-        totalPages: Math.ceil(totalCount / limit),
-        currentPage: page,
-        itemsPerPage: limit
-      }
+      pagination: pagination.asObject()
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
