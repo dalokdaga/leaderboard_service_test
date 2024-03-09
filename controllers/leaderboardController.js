@@ -41,7 +41,8 @@ exports.deleteLeaderboard = async (req, res) => {
     }
 
     // Actualizar deleted_at para marcar el tablero de líderes como eliminado
-    const deletedLeaderboard = await Leaderboard.findByIdAndUpdate(req.params.id, { deleted_at: Date.now() });
+    const deletedLeaderboard = await Leaderboard.findByIdAndUpdate(
+      req.params.id, { deleted_at: Date.now() }, { new: true } );
 
     res.status(200).json({ message: 'Tablero de líderes eliminado exitosamente', leaderboard: deletedLeaderboard });
   } catch (error) {
