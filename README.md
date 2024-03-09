@@ -5,6 +5,8 @@ Este es el servicio de tablero de líderes para gestionar tableros de líderes y
 ## Requisitos
 
 - Node.js
+   * node v20.11.1
+   * npm 10.2.4
 - MongoDB
 - Docker y Docker-Compose (Opcional)
 
