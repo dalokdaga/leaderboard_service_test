@@ -4,12 +4,14 @@ const mongoose = require('mongoose');
 const Leaderboard = require('../models/leaderboardModel');
 const User = require('../models/userModel');
 
+require('dotenv').config();
+
 let server; 
 
 beforeAll(async () => {
   server = startServer();
   await mongoose.disconnect()
-  await mongoose.connect('mongodb://localhost:27017/test');
+  await mongoose.connect(process.env.MONGODB_URI);
 });
 
 afterAll(async () => {
@@ -41,10 +43,8 @@ describe('Leaderboard Controller', () => {
     const newLeaderboard = new Leaderboard({ name: 'Test Leaderboard for delete', game: 'Test Game' });
     await newLeaderboard.save();
 
-    // Envía una solicitud DELETE al punto final correspondiente
     const response = await request(app).delete(`/leaderboards/${newLeaderboard._id}`);
 
-    // Verifica que se haya eliminado correctamente
     expect(response.statusCode).toBe(200);
 
     const deletedLeaderboard = await Leaderboard.findById(newLeaderboard._id);
@@ -67,10 +67,8 @@ describe('Leaderboard Controller', () => {
   
     await User.insertMany(users);
   
-    // Envía una solicitud GET al punto final correspondiente para listar los tableros de líderes con paginación
     const response = await request(app).get(`/leaderboards/${leaderboard._id}/users?page=1&limit=5`);
   
-    // Verifica que se devuelva la lista correctamente paginada
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('users');
     expect(response.body).toHaveProperty('pagination');
